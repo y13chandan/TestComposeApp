@@ -2,8 +2,8 @@ package com.example.testcomposeapp
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -66,34 +66,32 @@ fun DefaultPreview() {
 fun listOfItems() {
     val context = LocalContext.current
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
-            .clickable {
-                Toast.makeText(
-                    context,
-                    "text",
-                    Toast.LENGTH_SHORT
-                ).show()
-            },
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.Start,
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
-            rowView("Dialog")
+            rowView("Dialog") {
+                Toast.makeText(context, "Dialog", Toast.LENGTH_LONG).show()
+            }
         }
         item {
-            rowView("Android")
+            rowView("Android"){}
         }
         item {
-            rowView("Android")
+            rowView("Android"){}
         }
     }
 }
 
 @Composable
-fun rowView(text: String) {
+fun rowView(text: String, onClick: () -> Unit) {
     Surface(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .clickable {
+                       onClick.invoke()
+            },
         color = Color.Yellow
     ) {
         Text(
