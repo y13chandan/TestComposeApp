@@ -3,28 +3,36 @@ package com.example.testcomposeapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-//            TestComposeAppTheme {
-                // A surface container using the 'background' color from the theme
-//                Surface(color = MaterialTheme.colors.background) {
-                listOfNames()
-
-
-//                }
-//            }
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text(text = "TestComposeApp")
+                        },
+                    )
+                }, content = {
+                    listOfItems()
+                })
         }
     }
 }
@@ -37,18 +45,53 @@ fun Greeting(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    listOfNames()
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "TopAppBar")
+                },
+            )
+        }, content = {
+            listOfItems()
+        })
 }
 
 @Composable
-fun listOfNames() {
-    Column(
+fun listOfItems() {
+    LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.Start,
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Greeting("Android")
-        Greeting("Android")
-        Greeting("Android")
+        item {
+            rowView("Dialog")
+        }
+        item {
+            rowView("Android")
+        }
+        item {
+            rowView("Android")
+        }
     }
+}
+
+@Composable
+fun rowView(text: String) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = Color.Yellow
+    ) {
+        Text(
+            text = text,
+            style = TextStyle(
+                textAlign = TextAlign.Start,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Normal
+            ),
+            modifier = Modifier.padding(top = 10.dp, start = 16.dp, bottom = 10.dp)
+        )
+    }
+
 }
